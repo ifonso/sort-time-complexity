@@ -1,0 +1,4 @@
+.idea
+generated/**/*.txt
+out
+gen_out
