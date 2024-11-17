@@ -66,7 +66,7 @@ unsigned int *create_array_from_file(const char *filename, int *array_size) {
     int count = 0;
     unsigned int temp;
 
-    while (fscanf(file, "%d", &temp) == 1)
+    while (fscanf(file, "%u", &temp) == 1)
         count++;
 
     unsigned int *numbers = (unsigned int *)malloc(count * sizeof(unsigned int));
@@ -78,7 +78,7 @@ unsigned int *create_array_from_file(const char *filename, int *array_size) {
 
     rewind(file);
     for (int i = 0; i < count; i++) {
-        fscanf(file, "%d", &numbers[i]);
+        fscanf(file, "%u", &numbers[i]);
     }
     fclose(file);
 
