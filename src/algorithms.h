@@ -8,6 +8,6 @@
 #include <stddef.h>
 
 // Ordena a lista com algorítimo mergesort `"inplace"`
-void msort(int arr[], const size_t n);
+void msort(unsigned int arr[], const size_t n);
 
 #endif //ALGORITHMS_H
