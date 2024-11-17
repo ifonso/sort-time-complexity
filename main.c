@@ -113,6 +113,7 @@ void calculate_mean_time_sort(const char* base_path, const char* n, const int nu
         int current_n;
         unsigned int *current_array = create_array_from_file(c_filepath, &current_n);
         measure_sort_time(current_array, current_n, &measures[i], alg);
+        free(current_array);
 
         printf("Ordenando arrays...\n");
         printf("N = %s | %d/%d\n", n, i+1, num_files);
