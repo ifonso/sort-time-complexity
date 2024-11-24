@@ -10,7 +10,7 @@
 #include <conio.h>
 #include <windows.h>
 #else
-#include<unistd.h>
+#include <unistd.h>
 #define clrscr() printf("\e[1;1H\e[2J")
 #endif
 
@@ -45,10 +45,10 @@ double get_mean_time_in_seconds(const clock_t *times, const int n) {
     return total/(double)n;
 }
 
-double get_std_dev_in_seconds(const clock_t *times, const int n, double mean) {
+double get_std_dev_in_seconds(const clock_t *times, const int n, const double mean) {
     double sum = 0;
     for (int i = 0; i < n; i++) {
-        double diff = ((double)times[i] / CLOCKS_PER_SEC) - mean;
+        const double diff = ((double)times[i] / CLOCKS_PER_SEC) - mean;
         sum += diff * diff;
     }
     return sqrt(sum / (n - 1));
@@ -88,9 +88,14 @@ unsigned int *create_array_from_file(const char *filename, int *array_size) {
 
 void measure_sort_time(unsigned int *arr, const int n, clock_t *time_spent, const enum ALGO al) {
     const clock_t tick = clock();
-    if (al == MERGE_SORT) {
+
+    if (al == MERGE_SORT)
         msort(arr, n);
-    }
+    else if (al == QUICK_SORT)
+        quicksort(arr, n);
+    else
+        hsort(arr, n);
+
     const clock_t toc = clock();
     *time_spent = (toc - tick);
 }
@@ -126,8 +131,25 @@ void calculate_mean_time_sort(const char* base_path, const char* n, const int nu
     free(measures);
 }
 
-int main(int argc, char ** argv) {
-    enum ALGO current_algo = MERGE_SORT;
+int main(const int argc, char ** argv) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <algorithm>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    enum ALGO current_algo;
+
+    if (strcmp(argv[1], "mergesort") == 0)
+        current_algo = MERGE_SORT;
+    else if (strcmp(argv[1], "quicksort") == 0)
+        current_algo = QUICK_SORT;
+    else if (strcmp(argv[1], "heapsort") == 0)
+        current_algo = HEAP_SORT;
+    else {
+        fprintf(stderr, "Error: Unsupported algorithm '%s'.\n", argv[1]);
+        exit(EXIT_FAILURE);
+    }
+
     struct {
         double mean_time;
         double std_dev;

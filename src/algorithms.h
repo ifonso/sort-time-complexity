@@ -9,5 +9,9 @@
 
 // Ordena a lista com algorítimo mergesort `"inplace"`
 void msort(unsigned int arr[], const size_t n);
+// Ordena a lista com algorítimo quicksort `"inplace"`
+void quicksort(unsigned int arr[], const size_t n);
+// Ordena a lista com algorítimo heapsort `"inplace"`
+void hsort(unsigned int arr[], const size_t n);
 
 #endif //ALGORITHMS_H
