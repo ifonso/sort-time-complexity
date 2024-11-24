@@ -14,6 +14,12 @@
 #define clrscr() printf("\e[1;1H\e[2J")
 #endif
 
+#ifdef _WIN32
+#define DIR_SEPARATOR "\\"
+#else
+#define DIR_SEPARATOR "/"
+#endif
+
 #define MAX_STRING_SIZE 128
 #define NUMBER_OF_TESTS 5
 #define SAMPLE_SIZE 50
@@ -162,11 +168,11 @@ int main(const int argc, char ** argv) {
         {0, 0, "100_000_000"}
     };
 
-    const char *basepath = "./generated/";
+    const char *basepath = "." DIR_SEPARATOR "generated" DIR_SEPARATOR;
 
     for (int t = 0; t < NUMBER_OF_TESTS; t++) {
         char base_test_path[MAX_STRING_SIZE];
-        snprintf(base_test_path, MAX_STRING_SIZE, "%s%s%s", basepath, results[t].label, "/");
+        snprintf(base_test_path, MAX_STRING_SIZE, "%s%s%s", basepath, results[t].label, DIR_SEPARATOR);
 
         calculate_mean_time_sort(base_test_path, results[t].label, SAMPLE_SIZE, current_algo,
                                  &results[t].mean_time, &results[t].std_dev);
